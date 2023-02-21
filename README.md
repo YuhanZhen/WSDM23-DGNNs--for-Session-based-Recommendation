@@ -19,336 +19,262 @@ To this end, we present a dual graph neural network (DGNN), where a GNN with a s
 
 ## Datasets
 
-The preprocessed datasets are included in the repo (e.g. datasets/lastfm/train.txt), where each line contains a session id and item id list (starting from 1) meaning the interactions (sorted by timestamp).
-
-The data pre-processing script (i.e., preprocess_Dig_Yoo) is also included. For example, You can also download the raw Yoochoose-click data from [here](https://www.kaggle.com/datasets/chadgostopp/recsys-challenge-2015?select=yoochoose-clicks.dat) and run preprocess_Dig_Yoo.py to obtatin the preprocessed dataset for model training.
+The preprocessed datasets are included in the repo (e.g. datasets/yoochoose1_64/train.txt), where each line contains a session id and item id list (starting from 1) meaning the interactions (sorted by timestamp).
 
 ## Quick Start
 
 Download this repository and run the below command on the terminal for model training.
 
 ```
-python code/main.py --dataset diginetica
+python code/main.py --dataset yoochoose1_64
 ```
 
 Output log :
 
 ```
-2022/11/22 21:34:22 - __main__ - INFO - 55 - main - Namespace(batchSize=100, dataset='diginetica', dropout_global_att=0.5, dropout_global_ffn=0.5, epoch=50, fuse_A=False, global_att_block_nums=5, global_att_head_nums=4, hiddenSize=100, l2=1e-05, len_max=70, log_file='log/', lr=0.001, lr_dc=0.5, lr_dc_step=3, mt=0.9, nonhybrid=False, patience=5, random_seed=2023, step_global=2, valid_portion=0.1, validation=False)
-2022/11/22 21:34:42 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/22 21:34:42 - __main__ - INFO - 124 - main - epoch: 0
-2022/11/22 21:34:42 - __main__ - INFO - 201 - model - start training:2022-11-22 21:34:42.345332
-2022/11/22 21:34:44 - __main__ - INFO - 218 - model - [0/7195] Loss: 10.6660
-2022/11/22 21:42:26 - __main__ - INFO - 218 - model - [1440/7195] Loss: 7.3387
-2022/11/22 21:50:09 - __main__ - INFO - 218 - model - [2880/7195] Loss: 6.4663
-2022/11/22 21:58:06 - __main__ - INFO - 218 - model - [4320/7195] Loss: 16375.8408
-2022/11/22 22:06:01 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2630.1531
-2022/11/22 22:13:46 - __main__ - INFO - 220 - model - 	Loss:	90609528.000
-2022/11/22 22:13:46 - __main__ - INFO - 222 - model - start predicting: 2022-11-22 22:13:46.646646
-2022/11/22 22:14:42 - __main__ - INFO - 140 - main - Best Result:
-2022/11/22 22:14:42 - __main__ - INFO - 141 - main - 	Recall@20:	3.8401	MMR@20:	1.0511	Epoch:	0,	0
-2022/11/22 22:14:42 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/22 22:14:42 - __main__ - INFO - 124 - main - epoch: 1
-2022/11/22 22:14:42 - __main__ - INFO - 201 - model - start training:2022-11-22 22:14:42.591491
-2022/11/22 22:14:43 - __main__ - INFO - 218 - model - [0/7195] Loss: 2965.4319
-2022/11/22 22:22:30 - __main__ - INFO - 218 - model - [1440/7195] Loss: 374.3809
-2022/11/22 22:30:22 - __main__ - INFO - 218 - model - [2880/7195] Loss: 200.5794
-2022/11/22 22:38:19 - __main__ - INFO - 218 - model - [4320/7195] Loss: 309.3326
-2022/11/22 22:46:10 - __main__ - INFO - 218 - model - [5760/7195] Loss: 11158.1699
-2022/11/22 22:53:52 - __main__ - INFO - 220 - model - 	Loss:	16942378.000
-2022/11/22 22:53:52 - __main__ - INFO - 222 - model - start predicting: 2022-11-22 22:53:52.855097
-2022/11/22 22:54:47 - __main__ - INFO - 140 - main - Best Result:
-2022/11/22 22:54:47 - __main__ - INFO - 141 - main - 	Recall@20:	7.1281	MMR@20:	2.6659	Epoch:	1,	1
-2022/11/22 22:54:47 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/22 22:54:47 - __main__ - INFO - 124 - main - epoch: 2
-2022/11/22 22:54:47 - __main__ - INFO - 201 - model - start training:2022-11-22 22:54:47.985698
-2022/11/22 22:54:48 - __main__ - INFO - 218 - model - [0/7195] Loss: 221.9447
-2022/11/22 23:02:20 - __main__ - INFO - 218 - model - [1440/7195] Loss: 133.7093
-2022/11/22 23:09:54 - __main__ - INFO - 218 - model - [2880/7195] Loss: 66.1642
-2022/11/22 23:17:27 - __main__ - INFO - 218 - model - [4320/7195] Loss: 465.2521
-2022/11/22 23:25:02 - __main__ - INFO - 218 - model - [5760/7195] Loss: 128.3305
-2022/11/22 23:32:33 - __main__ - INFO - 220 - model - 	Loss:	2221822.500
-2022/11/22 23:32:33 - __main__ - INFO - 222 - model - start predicting: 2022-11-22 23:32:33.347848
-2022/11/22 23:33:27 - __main__ - INFO - 140 - main - Best Result:
-2022/11/22 23:33:27 - __main__ - INFO - 141 - main - 	Recall@20:	13.0106	MMR@20:	5.6054	Epoch:	2,	2
-2022/11/22 23:33:27 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/22 23:33:27 - __main__ - INFO - 124 - main - epoch: 3
-2022/11/22 23:33:27 - __main__ - INFO - 201 - model - start training:2022-11-22 23:33:27.128650
-2022/11/22 23:33:27 - __main__ - INFO - 218 - model - [0/7195] Loss: 29.7518
-2022/11/22 23:41:01 - __main__ - INFO - 218 - model - [1440/7195] Loss: 60.8124
-2022/11/22 23:48:34 - __main__ - INFO - 218 - model - [2880/7195] Loss: 8.4563
-2022/11/22 23:56:09 - __main__ - INFO - 218 - model - [4320/7195] Loss: 10.2007
-2022/11/23 00:03:44 - __main__ - INFO - 218 - model - [5760/7195] Loss: 12.1773
-2022/11/23 00:11:17 - __main__ - INFO - 220 - model - 	Loss:	163452.281
-2022/11/23 00:11:17 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 00:11:17.322086
-2022/11/23 00:12:10 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 00:12:10 - __main__ - INFO - 141 - main - 	Recall@20:	30.2524	MMR@20:	16.7527	Epoch:	3,	3
-2022/11/23 00:12:10 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 00:12:10 - __main__ - INFO - 124 - main - epoch: 4
-2022/11/23 00:12:10 - __main__ - INFO - 201 - model - start training:2022-11-23 00:12:10.786142
-2022/11/23 00:12:11 - __main__ - INFO - 218 - model - [0/7195] Loss: 8.8338
-2022/11/23 00:19:44 - __main__ - INFO - 218 - model - [1440/7195] Loss: 6.4273
-2022/11/23 00:27:18 - __main__ - INFO - 218 - model - [2880/7195] Loss: 11.5921
-2022/11/23 00:34:53 - __main__ - INFO - 218 - model - [4320/7195] Loss: 6.5608
-2022/11/23 00:42:28 - __main__ - INFO - 218 - model - [5760/7195] Loss: 5.8333
-2022/11/23 00:49:59 - __main__ - INFO - 220 - model - 	Loss:	83056.594
-2022/11/23 00:49:59 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 00:49:59.671330
-2022/11/23 00:50:53 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 00:50:53 - __main__ - INFO - 141 - main - 	Recall@20:	49.3526	MMR@20:	29.8486	Epoch:	4,	4
-2022/11/23 00:50:53 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 00:50:53 - __main__ - INFO - 124 - main - epoch: 5
-2022/11/23 00:50:53 - __main__ - INFO - 201 - model - start training:2022-11-23 00:50:53.763321
-2022/11/23 00:50:54 - __main__ - INFO - 218 - model - [0/7195] Loss: 7.2795
-2022/11/23 00:58:27 - __main__ - INFO - 218 - model - [1440/7195] Loss: 4.4977
-2022/11/23 01:06:01 - __main__ - INFO - 218 - model - [2880/7195] Loss: 4.1421
-2022/11/23 01:13:40 - __main__ - INFO - 218 - model - [4320/7195] Loss: 4.8141
-2022/11/23 01:21:18 - __main__ - INFO - 218 - model - [5760/7195] Loss: 4.2773
-2022/11/23 01:28:53 - __main__ - INFO - 220 - model - 	Loss:	36082.113
-2022/11/23 01:28:53 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 01:28:53.159532
-2022/11/23 01:29:47 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 01:29:47 - __main__ - INFO - 141 - main - 	Recall@20:	63.6087	MMR@20:	40.1149	Epoch:	5,	5
-2022/11/23 01:29:47 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 01:29:47 - __main__ - INFO - 124 - main - epoch: 6
-2022/11/23 01:29:47 - __main__ - INFO - 201 - model - start training:2022-11-23 01:29:47.813213
-2022/11/23 01:29:48 - __main__ - INFO - 218 - model - [0/7195] Loss: 5.8456
-2022/11/23 01:37:24 - __main__ - INFO - 218 - model - [1440/7195] Loss: 3.0819
-2022/11/23 01:45:00 - __main__ - INFO - 218 - model - [2880/7195] Loss: 3.5741
-2022/11/23 01:52:37 - __main__ - INFO - 218 - model - [4320/7195] Loss: 4.0256
-2022/11/23 02:00:14 - __main__ - INFO - 218 - model - [5760/7195] Loss: 3.5789
-2022/11/23 02:07:49 - __main__ - INFO - 220 - model - 	Loss:	28449.498
-2022/11/23 02:07:49 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 02:07:49.419066
-2022/11/23 02:08:44 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 02:08:44 - __main__ - INFO - 141 - main - 	Recall@20:	70.2619	MMR@20:	45.5707	Epoch:	6,	6
-2022/11/23 02:08:44 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 02:08:44 - __main__ - INFO - 124 - main - epoch: 7
-2022/11/23 02:08:44 - __main__ - INFO - 201 - model - start training:2022-11-23 02:08:44.613069
-2022/11/23 02:08:45 - __main__ - INFO - 218 - model - [0/7195] Loss: 4.8300
-2022/11/23 02:16:20 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.7946
-2022/11/23 02:23:56 - __main__ - INFO - 218 - model - [2880/7195] Loss: 3.2372
-2022/11/23 02:31:33 - __main__ - INFO - 218 - model - [4320/7195] Loss: 3.4812
-2022/11/23 02:39:10 - __main__ - INFO - 218 - model - [5760/7195] Loss: 3.0879
-2022/11/23 02:46:45 - __main__ - INFO - 220 - model - 	Loss:	24688.355
-2022/11/23 02:46:45 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 02:46:45.132232
-2022/11/23 02:47:39 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 02:47:39 - __main__ - INFO - 141 - main - 	Recall@20:	72.8992	MMR@20:	48.3469	Epoch:	7,	7
-2022/11/23 02:47:39 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 02:47:39 - __main__ - INFO - 124 - main - epoch: 8
-2022/11/23 02:47:39 - __main__ - INFO - 201 - model - start training:2022-11-23 02:47:39.646511
-2022/11/23 02:47:40 - __main__ - INFO - 218 - model - [0/7195] Loss: 4.2298
-2022/11/23 02:55:15 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.4511
-2022/11/23 03:02:51 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.7870
-2022/11/23 03:10:34 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.9854
-2022/11/23 03:18:12 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.5760
-2022/11/23 03:25:46 - __main__ - INFO - 220 - model - 	Loss:	20657.387
-2022/11/23 03:25:46 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 03:25:46.649939
-2022/11/23 03:26:41 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 03:26:41 - __main__ - INFO - 141 - main - 	Recall@20:	74.1037	MMR@20:	50.5254	Epoch:	8,	8
-2022/11/23 03:26:41 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 03:26:41 - __main__ - INFO - 124 - main - epoch: 9
-2022/11/23 03:26:41 - __main__ - INFO - 201 - model - start training:2022-11-23 03:26:41.472425
-2022/11/23 03:26:42 - __main__ - INFO - 218 - model - [0/7195] Loss: 3.6888
-2022/11/23 03:34:18 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.3910
-2022/11/23 03:41:54 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.6611
-2022/11/23 03:49:30 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.8552
-2022/11/23 03:57:08 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.4494
-2022/11/23 04:04:42 - __main__ - INFO - 220 - model - 	Loss:	19511.369
-2022/11/23 04:04:42 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 04:04:42.493305
-2022/11/23 04:05:37 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 04:05:37 - __main__ - INFO - 141 - main - 	Recall@20:	74.2318	MMR@20:	50.8759	Epoch:	9,	9
-2022/11/23 04:05:37 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 04:05:37 - __main__ - INFO - 124 - main - epoch: 10
-2022/11/23 04:05:37 - __main__ - INFO - 201 - model - start training:2022-11-23 04:05:37.333845
-2022/11/23 04:05:37 - __main__ - INFO - 218 - model - [0/7195] Loss: 3.4434
-2022/11/23 04:13:12 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.2990
-2022/11/23 04:20:49 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.5953
-2022/11/23 04:28:26 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.7389
-2022/11/23 04:36:04 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.3691
-2022/11/23 04:43:39 - __main__ - INFO - 220 - model - 	Loss:	18723.820
-2022/11/23 04:43:39 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 04:43:39.121198
-2022/11/23 04:44:33 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 04:44:33 - __main__ - INFO - 141 - main - 	Recall@20:	74.2318	MMR@20:	50.9794	Epoch:	9,	10
-2022/11/23 04:44:33 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 04:44:33 - __main__ - INFO - 124 - main - epoch: 11
-2022/11/23 04:44:33 - __main__ - INFO - 201 - model - start training:2022-11-23 04:44:33.753163
-2022/11/23 04:44:34 - __main__ - INFO - 218 - model - [0/7195] Loss: 3.2638
-2022/11/23 04:52:11 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.1237
-2022/11/23 04:59:47 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.4107
-2022/11/23 05:07:24 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.5328
-2022/11/23 05:15:01 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.0511
-2022/11/23 05:22:36 - __main__ - INFO - 220 - model - 	Loss:	17069.988
-2022/11/23 05:22:36 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 05:22:36.674739
-2022/11/23 05:23:31 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 05:23:31 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.7434	Epoch:	11,	11
-2022/11/23 05:23:31 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 05:23:31 - __main__ - INFO - 124 - main - epoch: 12
-2022/11/23 05:23:31 - __main__ - INFO - 201 - model - start training:2022-11-23 05:23:31.632454
-2022/11/23 05:23:32 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.9552
-2022/11/23 05:31:08 - __main__ - INFO - 218 - model - [1440/7195] Loss: 2.0333
-2022/11/23 05:38:44 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.3585
-2022/11/23 05:46:21 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.4624
-2022/11/23 05:54:00 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.0268
-2022/11/23 06:01:35 - __main__ - INFO - 220 - model - 	Loss:	16595.393
-2022/11/23 06:01:35 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 06:01:35.728580
-2022/11/23 06:02:30 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 06:02:30 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.7434	Epoch:	11,	11
-2022/11/23 06:02:30 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 06:02:30 - __main__ - INFO - 124 - main - epoch: 13
-2022/11/23 06:02:30 - __main__ - INFO - 201 - model - start training:2022-11-23 06:02:30.727060
-2022/11/23 06:02:31 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.8275
-2022/11/23 06:10:07 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.9795
-2022/11/23 06:17:42 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.3305
-2022/11/23 06:25:23 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.3988
-2022/11/23 06:33:00 - __main__ - INFO - 218 - model - [5760/7195] Loss: 2.0016
-2022/11/23 06:40:34 - __main__ - INFO - 220 - model - 	Loss:	16250.830
-2022/11/23 06:40:34 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 06:40:34.972358
-2022/11/23 06:41:29 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 06:41:29 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.7434	Epoch:	11,	11
-2022/11/23 06:41:29 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 06:41:29 - __main__ - INFO - 124 - main - epoch: 14
-2022/11/23 06:41:29 - __main__ - INFO - 201 - model - start training:2022-11-23 06:41:29.802978
-2022/11/23 06:41:30 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.7368
-2022/11/23 06:49:06 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.8645
-2022/11/23 06:56:42 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.2262
-2022/11/23 07:04:19 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.3247
-2022/11/23 07:11:57 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.8570
-2022/11/23 07:19:31 - __main__ - INFO - 220 - model - 	Loss:	15416.592
-2022/11/23 07:19:31 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 07:19:31.839298
-2022/11/23 07:20:26 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 07:20:26 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.9562	Epoch:	11,	14
-2022/11/23 07:20:26 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 07:20:26 - __main__ - INFO - 124 - main - epoch: 15
-2022/11/23 07:20:26 - __main__ - INFO - 201 - model - start training:2022-11-23 07:20:26.425883
-2022/11/23 07:20:26 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.5805
-2022/11/23 07:28:02 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.8330
-2022/11/23 07:35:38 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.2042
-2022/11/23 07:43:15 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.2843
-2022/11/23 07:50:53 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.8406
-2022/11/23 07:58:28 - __main__ - INFO - 220 - model - 	Loss:	15163.688
-2022/11/23 07:58:28 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 07:58:28.334356
-2022/11/23 07:59:23 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 07:59:23 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.9562	Epoch:	11,	14
-2022/11/23 07:59:23 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 07:59:23 - __main__ - INFO - 124 - main - epoch: 16
-2022/11/23 07:59:23 - __main__ - INFO - 201 - model - start training:2022-11-23 07:59:23.659006
-2022/11/23 07:59:24 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.5272
-2022/11/23 08:06:59 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.7951
-2022/11/23 08:14:36 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.1786
-2022/11/23 08:22:13 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.2426
-2022/11/23 08:29:51 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.8536
-2022/11/23 08:37:26 - __main__ - INFO - 220 - model - 	Loss:	14986.437
-2022/11/23 08:37:26 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 08:37:26.703422
-2022/11/23 08:38:21 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 08:38:21 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	51.9562	Epoch:	11,	14
-2022/11/23 08:38:21 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 08:38:21 - __main__ - INFO - 124 - main - epoch: 17
-2022/11/23 08:38:21 - __main__ - INFO - 201 - model - start training:2022-11-23 08:38:21.981485
-2022/11/23 08:38:22 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.4671
-2022/11/23 08:45:57 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.7360
-2022/11/23 08:53:34 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.1353
-2022/11/23 09:01:15 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1925
-2022/11/23 09:08:55 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7805
-2022/11/23 09:16:30 - __main__ - INFO - 220 - model - 	Loss:	14556.920
-2022/11/23 09:16:30 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 09:16:30.491623
-2022/11/23 09:17:26 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 09:17:26 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.0166	Epoch:	11,	17
-2022/11/23 09:17:26 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 09:17:26 - __main__ - INFO - 124 - main - epoch: 18
-2022/11/23 09:17:26 - __main__ - INFO - 201 - model - start training:2022-11-23 09:17:26.038738
-2022/11/23 09:17:26 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.4154
-2022/11/23 09:25:02 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.7230
-2022/11/23 09:32:38 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.1255
-2022/11/23 09:40:15 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1770
-2022/11/23 09:47:58 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7601
-2022/11/23 09:56:14 - __main__ - INFO - 220 - model - 	Loss:	14414.090
-2022/11/23 09:56:14 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 09:56:14.124822
-2022/11/23 09:57:13 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 09:57:13 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.0166	Epoch:	11,	17
-2022/11/23 09:57:13 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 09:57:13 - __main__ - INFO - 124 - main - epoch: 19
-2022/11/23 09:57:13 - __main__ - INFO - 201 - model - start training:2022-11-23 09:57:13.306561
-2022/11/23 09:57:13 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.3652
-2022/11/23 10:05:28 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.7137
-2022/11/23 10:13:17 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.1148
-2022/11/23 10:21:08 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1584
-2022/11/23 10:28:59 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7683
-2022/11/23 10:36:47 - __main__ - INFO - 220 - model - 	Loss:	14319.896
-2022/11/23 10:36:47 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 10:36:47.754429
-2022/11/23 10:37:45 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 10:37:45 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.0166	Epoch:	11,	17
-2022/11/23 10:37:45 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 10:37:45 - __main__ - INFO - 124 - main - epoch: 20
-2022/11/23 10:37:45 - __main__ - INFO - 201 - model - start training:2022-11-23 10:37:45.062179
-2022/11/23 10:37:45 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.3462
-2022/11/23 10:45:34 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6716
-2022/11/23 10:53:24 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0814
-2022/11/23 11:01:07 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1283
-2022/11/23 11:09:02 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7270
-2022/11/23 11:16:49 - __main__ - INFO - 220 - model - 	Loss:	14100.801
-2022/11/23 11:16:49 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 11:16:49.391504
-2022/11/23 11:17:47 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 11:17:47 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 11:17:47 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 11:17:47 - __main__ - INFO - 124 - main - epoch: 21
-2022/11/23 11:17:47 - __main__ - INFO - 201 - model - start training:2022-11-23 11:17:47.646748
-2022/11/23 11:17:48 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.3238
-2022/11/23 11:25:37 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6784
-2022/11/23 11:33:37 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0784
-2022/11/23 11:41:33 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1195
-2022/11/23 11:49:30 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7281
-2022/11/23 11:57:23 - __main__ - INFO - 220 - model - 	Loss:	14020.557
-2022/11/23 11:57:23 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 11:57:23.181603
-2022/11/23 11:58:21 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 11:58:21 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 11:58:21 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 11:58:21 - __main__ - INFO - 124 - main - epoch: 22
-2022/11/23 11:58:21 - __main__ - INFO - 201 - model - start training:2022-11-23 11:58:21.841935
-2022/11/23 11:58:22 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.2961
-2022/11/23 12:06:08 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6548
-2022/11/23 12:13:53 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0749
-2022/11/23 12:21:38 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.1159
-2022/11/23 12:29:24 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7330
-2022/11/23 12:37:07 - __main__ - INFO - 220 - model - 	Loss:	13969.886
-2022/11/23 12:37:07 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 12:37:07.141681
-2022/11/23 12:38:06 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 12:38:06 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 12:38:06 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 12:38:06 - __main__ - INFO - 124 - main - epoch: 23
-2022/11/23 12:38:06 - __main__ - INFO - 201 - model - start training:2022-11-23 12:38:06.096057
-2022/11/23 12:38:06 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.2918
-2022/11/23 12:45:48 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6612
-2022/11/23 12:53:31 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0721
-2022/11/23 13:01:13 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.0969
-2022/11/23 13:08:56 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.6971
-2022/11/23 13:16:36 - __main__ - INFO - 220 - model - 	Loss:	13863.137
-2022/11/23 13:16:36 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 13:16:36.475819
-2022/11/23 13:17:33 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 13:17:33 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 13:17:33 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 13:17:33 - __main__ - INFO - 124 - main - epoch: 24
-2022/11/23 13:17:33 - __main__ - INFO - 201 - model - start training:2022-11-23 13:17:33.143880
-2022/11/23 13:17:33 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.2823
-2022/11/23 13:25:13 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6485
-2022/11/23 13:32:54 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0688
-2022/11/23 13:40:36 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.0849
-2022/11/23 13:48:19 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7127
-2022/11/23 13:56:00 - __main__ - INFO - 220 - model - 	Loss:	13817.807
-2022/11/23 13:56:00 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 13:56:00.455063
-2022/11/23 13:56:57 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 13:56:57 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 13:56:57 - __main__ - INFO - 122 - main - -------------------------------------------------------
-2022/11/23 13:56:57 - __main__ - INFO - 124 - main - epoch: 25
-2022/11/23 13:56:57 - __main__ - INFO - 201 - model - start training:2022-11-23 13:56:57.043982
-2022/11/23 13:56:57 - __main__ - INFO - 218 - model - [0/7195] Loss: 2.2688
-2022/11/23 14:04:37 - __main__ - INFO - 218 - model - [1440/7195] Loss: 1.6344
-2022/11/23 14:12:31 - __main__ - INFO - 218 - model - [2880/7195] Loss: 2.0483
-2022/11/23 14:20:13 - __main__ - INFO - 218 - model - [4320/7195] Loss: 2.0865
-2022/11/23 14:27:56 - __main__ - INFO - 218 - model - [5760/7195] Loss: 1.7065
-2022/11/23 14:35:37 - __main__ - INFO - 220 - model - 	Loss:	13791.655
-2022/11/23 14:35:37 - __main__ - INFO - 222 - model - start predicting: 2022-11-23 14:35:37.315811
-2022/11/23 14:36:34 - __main__ - INFO - 140 - main - Best Result:
-2022/11/23 14:36:34 - __main__ - INFO - 141 - main - 	Recall@20:	74.4224	MMR@20:	52.1028	Epoch:	11,	20
-2022/11/23 14:36:34 - __main__ - INFO - 146 - main - -------------------------------------------------------
-2022/11/23 14:36:34 - __main__ - INFO - 149 - main - Run time: 61312.220631 s
+2022/11/26 22:06:49 - __main__ - INFO - 65 - main - Namespace(batchSize=100, dataset='yoochoose1_64', dropout_global_att=0.5, dropout_global_ffn=0.5, epoch=50, fuse_A=False, global_att_block_nums=5, global_att_head_nums=4, hiddenSize=100, l2=1e-05, len_max=70, log_file='log/', lr=0.001, lr_dc=0.5, lr_dc_step=3, mt=0.9, nonhybrid=False, patience=5, random_seed=2023, step_global=2, valid_portion=0.1, validation=False)
+2022/11/26 22:07:07 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/26 22:07:07 - __main__ - INFO - 137 - main - epoch: 0
+2022/11/26 22:07:07 - __main__ - INFO - 208 - model - start training:2022-11-26 22:07:07.385682
+2022/11/26 22:07:10 - __main__ - INFO - 224 - model - [0/3699] Loss: 10.6094
+2022/11/26 22:11:35 - __main__ - INFO - 224 - model - [740/3699] Loss: 6.7706
+2022/11/26 22:16:30 - __main__ - INFO - 224 - model - [1480/3699] Loss: 7.7551
+2022/11/26 22:20:54 - __main__ - INFO - 224 - model - [2220/3699] Loss: 6.7143
+2022/11/26 22:25:55 - __main__ - INFO - 224 - model - [2960/3699] Loss: 5.5899
+2022/11/26 22:30:57 - __main__ - INFO - 226 - model - 	Loss:	25870.801
+2022/11/26 22:30:57 - __main__ - INFO - 228 - model - start predicting: 2022-11-26 22:30:57.564232
+2022/11/26 22:32:05 - __main__ - INFO - 153 - main - Best Result:
+2022/11/26 22:32:05 - __main__ - INFO - 154 - main - 	Recall@20:	62.1274	MMR@20:	27.7101	Epoch:	0,	0
+2022/11/26 22:32:05 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/26 22:32:05 - __main__ - INFO - 137 - main - epoch: 1
+2022/11/26 22:32:05 - __main__ - INFO - 208 - model - start training:2022-11-26 22:32:05.198368
+2022/11/26 22:32:05 - __main__ - INFO - 224 - model - [0/3699] Loss: 5.5067
+2022/11/26 22:37:04 - __main__ - INFO - 224 - model - [740/3699] Loss: 4.7762
+2022/11/26 22:41:58 - __main__ - INFO - 224 - model - [1480/3699] Loss: 5.9290
+2022/11/26 22:46:58 - __main__ - INFO - 224 - model - [2220/3699] Loss: 4.4842
+2022/11/26 22:52:07 - __main__ - INFO - 224 - model - [2960/3699] Loss: 4.4392
+2022/11/26 22:57:16 - __main__ - INFO - 226 - model - 	Loss:	16842.912
+2022/11/26 22:57:16 - __main__ - INFO - 228 - model - start predicting: 2022-11-26 22:57:16.714422
+2022/11/26 22:58:33 - __main__ - INFO - 153 - main - Best Result:
+2022/11/26 22:58:33 - __main__ - INFO - 154 - main - 	Recall@20:	75.0528	MMR@20:	40.1226	Epoch:	1,	1
+2022/11/26 22:58:33 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/26 22:58:33 - __main__ - INFO - 137 - main - epoch: 2
+2022/11/26 22:58:33 - __main__ - INFO - 208 - model - start training:2022-11-26 22:58:33.401552
+2022/11/26 22:58:34 - __main__ - INFO - 224 - model - [0/3699] Loss: 4.3191
+2022/11/26 23:03:38 - __main__ - INFO - 224 - model - [740/3699] Loss: 3.6664
+2022/11/26 23:08:45 - __main__ - INFO - 224 - model - [1480/3699] Loss: 4.6060
+2022/11/26 23:13:29 - __main__ - INFO - 224 - model - [2220/3699] Loss: 3.3848
+2022/11/26 23:18:11 - __main__ - INFO - 224 - model - [2960/3699] Loss: 3.4304
+2022/11/26 23:22:55 - __main__ - INFO - 226 - model - 	Loss:	13206.345
+2022/11/26 23:22:55 - __main__ - INFO - 228 - model - start predicting: 2022-11-26 23:22:55.298667
+2022/11/26 23:24:02 - __main__ - INFO - 153 - main - Best Result:
+2022/11/26 23:24:02 - __main__ - INFO - 154 - main - 	Recall@20:	79.3857	MMR@20:	46.1336	Epoch:	2,	2
+2022/11/26 23:24:02 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/26 23:24:02 - __main__ - INFO - 137 - main - epoch: 3
+2022/11/26 23:24:02 - __main__ - INFO - 208 - model - start training:2022-11-26 23:24:02.707588
+2022/11/26 23:24:03 - __main__ - INFO - 224 - model - [0/3699] Loss: 3.5217
+2022/11/26 23:28:43 - __main__ - INFO - 224 - model - [740/3699] Loss: 3.3724
+2022/11/26 23:33:26 - __main__ - INFO - 224 - model - [1480/3699] Loss: 4.1205
+2022/11/26 23:38:09 - __main__ - INFO - 224 - model - [2220/3699] Loss: 3.1378
+2022/11/26 23:42:53 - __main__ - INFO - 224 - model - [2960/3699] Loss: 3.1469
+2022/11/26 23:47:35 - __main__ - INFO - 226 - model - 	Loss:	11808.760
+2022/11/26 23:47:35 - __main__ - INFO - 228 - model - start predicting: 2022-11-26 23:47:35.565350
+2022/11/26 23:48:42 - __main__ - INFO - 153 - main - Best Result:
+2022/11/26 23:48:42 - __main__ - INFO - 154 - main - 	Recall@20:	80.6272	MMR@20:	48.0348	Epoch:	3,	3
+2022/11/26 23:48:42 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/26 23:48:42 - __main__ - INFO - 137 - main - epoch: 4
+2022/11/26 23:48:42 - __main__ - INFO - 208 - model - start training:2022-11-26 23:48:42.843138
+2022/11/26 23:48:43 - __main__ - INFO - 224 - model - [0/3699] Loss: 3.2575
+2022/11/26 23:53:25 - __main__ - INFO - 224 - model - [740/3699] Loss: 3.1841
+2022/11/26 23:58:06 - __main__ - INFO - 224 - model - [1480/3699] Loss: 3.7155
+2022/11/27 00:02:50 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.8898
+2022/11/27 00:07:33 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.9705
+2022/11/27 00:12:15 - __main__ - INFO - 226 - model - 	Loss:	10858.662
+2022/11/27 00:12:15 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 00:12:15.927006
+2022/11/27 00:13:23 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 00:13:23 - __main__ - INFO - 154 - main - 	Recall@20:	81.2122	MMR@20:	49.1387	Epoch:	4,	4
+2022/11/27 00:13:23 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 00:13:23 - __main__ - INFO - 137 - main - epoch: 5
+2022/11/27 00:13:23 - __main__ - INFO - 208 - model - start training:2022-11-27 00:13:23.293859
+2022/11/27 00:13:23 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.9813
+2022/11/27 00:18:03 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.9054
+2022/11/27 00:22:46 - __main__ - INFO - 224 - model - [1480/3699] Loss: 3.2117
+2022/11/27 00:27:30 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.5550
+2022/11/27 00:32:13 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.6129
+2022/11/27 00:36:56 - __main__ - INFO - 226 - model - 	Loss:	9661.092
+2022/11/27 00:36:56 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 00:36:56.264429
+2022/11/27 00:38:03 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 00:38:03 - __main__ - INFO - 154 - main - 	Recall@20:	81.7364	MMR@20:	50.3430	Epoch:	5,	5
+2022/11/27 00:38:03 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 00:38:03 - __main__ - INFO - 137 - main - epoch: 6
+2022/11/27 00:38:03 - __main__ - INFO - 208 - model - start training:2022-11-27 00:38:03.449805
+2022/11/27 00:38:04 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.6974
+2022/11/27 00:42:43 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.8027
+2022/11/27 00:47:29 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.9811
+2022/11/27 00:52:11 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.4527
+2022/11/27 00:56:56 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.5373
+2022/11/27 01:01:39 - __main__ - INFO - 226 - model - 	Loss:	9223.630
+2022/11/27 01:01:39 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 01:01:39.799956
+2022/11/27 01:02:47 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 01:02:47 - __main__ - INFO - 154 - main - 	Recall@20:	81.7453	MMR@20:	50.5832	Epoch:	6,	6
+2022/11/27 01:02:47 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 01:02:47 - __main__ - INFO - 137 - main - epoch: 7
+2022/11/27 01:02:47 - __main__ - INFO - 208 - model - start training:2022-11-27 01:02:47.634704
+2022/11/27 01:02:48 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.5754
+2022/11/27 01:07:29 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.7265
+2022/11/27 01:12:09 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.7870
+2022/11/27 01:16:50 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.3763
+2022/11/27 01:21:34 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.4636
+2022/11/27 01:26:18 - __main__ - INFO - 226 - model - 	Loss:	8902.054
+2022/11/27 01:26:18 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 01:26:18.832268
+2022/11/27 01:27:26 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 01:27:26 - __main__ - INFO - 154 - main - 	Recall@20:	81.7453	MMR@20:	50.6519	Epoch:	6,	7
+2022/11/27 01:27:26 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 01:27:26 - __main__ - INFO - 137 - main - epoch: 8
+2022/11/27 01:27:26 - __main__ - INFO - 208 - model - start training:2022-11-27 01:27:26.228596
+2022/11/27 01:27:26 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.4433
+2022/11/27 01:32:09 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.6179
+2022/11/27 01:36:51 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.5475
+2022/11/27 01:41:33 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.2534
+2022/11/27 01:46:16 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.3013
+2022/11/27 01:51:00 - __main__ - INFO - 226 - model - 	Loss:	8381.315
+2022/11/27 01:51:00 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 01:51:00.094379
+2022/11/27 01:52:07 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 01:52:07 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.3188	Epoch:	8,	8
+2022/11/27 01:52:07 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 01:52:07 - __main__ - INFO - 137 - main - epoch: 9
+2022/11/27 01:52:07 - __main__ - INFO - 208 - model - start training:2022-11-27 01:52:07.699221
+2022/11/27 01:52:08 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.3394
+2022/11/27 01:56:48 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.5563
+2022/11/27 02:01:30 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.4477
+2022/11/27 02:06:13 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.1658
+2022/11/27 02:10:58 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.2818
+2022/11/27 02:15:40 - __main__ - INFO - 226 - model - 	Loss:	8168.046
+2022/11/27 02:15:40 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 02:15:40.729680
+2022/11/27 02:16:48 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 02:16:48 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.3188	Epoch:	8,	8
+2022/11/27 02:16:48 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 02:16:48 - __main__ - INFO - 137 - main - epoch: 10
+2022/11/27 02:16:48 - __main__ - INFO - 208 - model - start training:2022-11-27 02:16:48.338916
+2022/11/27 02:16:48 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.2518
+2022/11/27 02:21:30 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.5044
+2022/11/27 02:26:13 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.3628
+2022/11/27 02:30:55 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.1500
+2022/11/27 02:35:41 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.2438
+2022/11/27 02:40:26 - __main__ - INFO - 226 - model - 	Loss:	8019.341
+2022/11/27 02:40:26 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 02:40:26.342581
+2022/11/27 02:41:33 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 02:41:33 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.3188	Epoch:	8,	8
+2022/11/27 02:41:33 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 02:41:33 - __main__ - INFO - 137 - main - epoch: 11
+2022/11/27 02:41:33 - __main__ - INFO - 208 - model - start training:2022-11-27 02:41:33.858091
+2022/11/27 02:41:34 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.1917
+2022/11/27 02:46:14 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.4591
+2022/11/27 02:50:57 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.2420
+2022/11/27 02:55:41 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.0421
+2022/11/27 03:00:25 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.1140
+2022/11/27 03:05:15 - __main__ - INFO - 226 - model - 	Loss:	7767.702
+2022/11/27 03:05:15 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 03:05:15.717379
+2022/11/27 03:06:23 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 03:06:23 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5090	Epoch:	8,	11
+2022/11/27 03:06:23 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 03:06:23 - __main__ - INFO - 137 - main - epoch: 12
+2022/11/27 03:06:23 - __main__ - INFO - 208 - model - start training:2022-11-27 03:06:23.415982
+2022/11/27 03:06:24 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.1085
+2022/11/27 03:11:04 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.4391
+2022/11/27 03:15:46 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.2109
+2022/11/27 03:20:28 - __main__ - INFO - 224 - model - [2220/3699] Loss: 2.0273
+2022/11/27 03:25:11 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.1130
+2022/11/27 03:29:59 - __main__ - INFO - 226 - model - 	Loss:	7657.962
+2022/11/27 03:29:59 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 03:29:59.050492
+2022/11/27 03:31:06 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 03:31:06 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5090	Epoch:	8,	11
+2022/11/27 03:31:06 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 03:31:06 - __main__ - INFO - 137 - main - epoch: 13
+2022/11/27 03:31:06 - __main__ - INFO - 208 - model - start training:2022-11-27 03:31:06.564809
+2022/11/27 03:31:07 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.0643
+2022/11/27 03:35:48 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.4242
+2022/11/27 03:40:30 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.1579
+2022/11/27 03:45:12 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.9723
+2022/11/27 03:49:56 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.0893
+2022/11/27 03:54:39 - __main__ - INFO - 226 - model - 	Loss:	7582.233
+2022/11/27 03:54:39 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 03:54:39.424032
+2022/11/27 03:55:46 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 03:55:46 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5090	Epoch:	8,	11
+2022/11/27 03:55:46 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 03:55:46 - __main__ - INFO - 137 - main - epoch: 14
+2022/11/27 03:55:46 - __main__ - INFO - 208 - model - start training:2022-11-27 03:55:46.940110
+2022/11/27 03:55:47 - __main__ - INFO - 224 - model - [0/3699] Loss: 2.0338
+2022/11/27 04:00:28 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3926
+2022/11/27 04:05:10 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.1152
+2022/11/27 04:09:52 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.9182
+2022/11/27 04:14:37 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.0222
+2022/11/27 04:19:22 - __main__ - INFO - 226 - model - 	Loss:	7459.330
+2022/11/27 04:19:22 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 04:19:22.695413
+2022/11/27 04:20:30 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 04:20:30 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 04:20:30 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 04:20:30 - __main__ - INFO - 137 - main - epoch: 15
+2022/11/27 04:20:30 - __main__ - INFO - 208 - model - start training:2022-11-27 04:20:30.478942
+2022/11/27 04:20:31 - __main__ - INFO - 224 - model - [0/3699] Loss: 1.9998
+2022/11/27 04:25:11 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3841
+2022/11/27 04:29:52 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.0717
+2022/11/27 04:34:37 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.8840
+2022/11/27 04:39:20 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.0199
+2022/11/27 04:44:04 - __main__ - INFO - 226 - model - 	Loss:	7402.988
+2022/11/27 04:44:04 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 04:44:04.551159
+2022/11/27 04:45:11 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 04:45:11 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 04:45:11 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 04:45:11 - __main__ - INFO - 137 - main - epoch: 16
+2022/11/27 04:45:11 - __main__ - INFO - 208 - model - start training:2022-11-27 04:45:11.830304
+2022/11/27 04:45:12 - __main__ - INFO - 224 - model - [0/3699] Loss: 1.9716
+2022/11/27 04:49:52 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3714
+2022/11/27 04:54:34 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.0471
+2022/11/27 04:59:15 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.8756
+2022/11/27 05:04:01 - __main__ - INFO - 224 - model - [2960/3699] Loss: 2.0065
+2022/11/27 05:08:43 - __main__ - INFO - 226 - model - 	Loss:	7361.528
+2022/11/27 05:08:43 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 05:08:43.955933
+2022/11/27 05:09:51 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 05:09:51 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 05:09:51 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 05:09:51 - __main__ - INFO - 137 - main - epoch: 17
+2022/11/27 05:09:51 - __main__ - INFO - 208 - model - start training:2022-11-27 05:09:51.716705
+2022/11/27 05:09:52 - __main__ - INFO - 224 - model - [0/3699] Loss: 1.9626
+2022/11/27 05:14:33 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3705
+2022/11/27 05:19:15 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.0243
+2022/11/27 05:23:58 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.8271
+2022/11/27 05:28:45 - __main__ - INFO - 224 - model - [2960/3699] Loss: 1.9932
+2022/11/27 05:33:29 - __main__ - INFO - 226 - model - 	Loss:	7304.998
+2022/11/27 05:33:29 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 05:33:29.305075
+2022/11/27 05:34:37 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 05:34:37 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 05:34:37 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 05:34:37 - __main__ - INFO - 137 - main - epoch: 18
+2022/11/27 05:34:37 - __main__ - INFO - 208 - model - start training:2022-11-27 05:34:37.149351
+2022/11/27 05:34:37 - __main__ - INFO - 224 - model - [0/3699] Loss: 1.9465
+2022/11/27 05:39:18 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3530
+2022/11/27 05:43:59 - __main__ - INFO - 224 - model - [1480/3699] Loss: 2.0044
+2022/11/27 05:48:40 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.7885
+2022/11/27 05:53:24 - __main__ - INFO - 224 - model - [2960/3699] Loss: 1.9837
+2022/11/27 05:58:08 - __main__ - INFO - 226 - model - 	Loss:	7275.407
+2022/11/27 05:58:08 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 05:58:08.791308
+2022/11/27 05:59:16 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 05:59:16 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 05:59:16 - __main__ - INFO - 135 - main - -------------------------------------------------------
+2022/11/27 05:59:16 - __main__ - INFO - 137 - main - epoch: 19
+2022/11/27 05:59:16 - __main__ - INFO - 208 - model - start training:2022-11-27 05:59:16.271363
+2022/11/27 05:59:16 - __main__ - INFO - 224 - model - [0/3699] Loss: 1.9227
+2022/11/27 06:03:57 - __main__ - INFO - 224 - model - [740/3699] Loss: 2.3561
+2022/11/27 06:08:38 - __main__ - INFO - 224 - model - [1480/3699] Loss: 1.9811
+2022/11/27 06:13:20 - __main__ - INFO - 224 - model - [2220/3699] Loss: 1.7916
+2022/11/27 06:18:05 - __main__ - INFO - 224 - model - [2960/3699] Loss: 1.9706
+2022/11/27 06:22:49 - __main__ - INFO - 226 - model - 	Loss:	7252.976
+2022/11/27 06:22:49 - __main__ - INFO - 228 - model - start predicting: 2022-11-27 06:22:49.021106
+2022/11/27 06:23:56 - __main__ - INFO - 153 - main - Best Result:
+2022/11/27 06:23:56 - __main__ - INFO - 154 - main - 	Recall@20:	81.8813	MMR@20:	51.5587	Epoch:	8,	14
+2022/11/27 06:23:56 - __main__ - INFO - 159 - main - -------------------------------------------------------
+2022/11/27 06:23:56 - __main__ - INFO - 162 - main - Run time: 29809.133901 s
 ```
 
 You can also config other experimental settsing for your requirements
