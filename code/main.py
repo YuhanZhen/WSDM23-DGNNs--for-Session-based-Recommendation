@@ -101,15 +101,15 @@ def main():
 
     lens_max()
     config_dataset()
-    # train_data = pickle.load(open('../datasets/' + opt.dataset + '/train.txt', 'rb'))
-    train_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\train.txt', 'rb'))
+    train_data = pickle.load(open('../datasets/' + opt.dataset + '/train.txt', 'rb'))
+    # train_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\train.txt', 'rb'))
     if opt.validation:
         train_data, valid_data = split_validation(train_data, opt.valid_portion)
         test_data = valid_data
     else:
 
-        # test_data = pickle.load(open('../datasets/' + opt.dataset + '/test.txt', 'rb'))
-        test_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\test.txt', 'rb'))
+        test_data = pickle.load(open('../datasets/' + opt.dataset + '/test.txt', 'rb'))
+        # test_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\test.txt', 'rb'))
 
     train_data = Data(train_data, opt.len_max, shuffle=True)
     test_data = Data(test_data, opt.len_max, shuffle=False)
@@ -164,7 +164,26 @@ def main():
     end = time.time()
     print("Run time: %f s" % (end - start))
     logger.info("Run time: %f s" % (end - start))
+        
+    print('---------------Test------------------------')
+    model.eval()
+    hit, mrr = [], []
+    slices = test_data.generate_batch(model_best.batch_size, opt.random_seed)
 
+    for i in slices:
+        targets, scores = forward(model_best, i, test_data)
+        sub_scores = scores.topk(20)[1]
+        sub_scores = trans_to_cpu(sub_scores).detach().numpy()
+        for score, target, mask in zip(sub_scores, targets, test_data.mask):
+            hit.append(np.isin(target - 1, score))
+            if len(np.where(score == target - 1)[0]) == 0:
+                mrr.append(0)
+            else:
+                mrr.append(1 / (np.where(score == target - 1)[0][0] + 1))
+    hit = np.mean(hit) * 100
+    mrr = np.mean(mrr) * 100
+    print(hit)
+    print(mrr)
 
 if __name__ == '__main__':
     main()
