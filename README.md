@@ -21,6 +21,8 @@ To this end, we present a dual graph neural network (DGNN), where a GNN with a s
 
 The preprocessed datasets are included in the repo (e.g. datasets/yoochoose1_64/train.txt), where each line contains a session id and item id list (starting from 1) meaning the interactions (sorted by timestamp).
 
+The data pre-processing script (i.e., preprocess_Dig_Yoo) is also included. For example, You can also download the raw Yoochoose-click data from [here](https://www.kaggle.com/datasets/chadgostopp/recsys-challenge-2015?select=yoochoose-clicks.dat) and run preprocess_Dig_Yoo.py to obtatin the preprocessed dataset for model training.
+
 ## Quick Start
 
 Download this repository and run the below command on the terminal for model training.
