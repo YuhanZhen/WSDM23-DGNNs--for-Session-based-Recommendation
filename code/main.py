@@ -51,6 +51,17 @@ opt = parser.parse_args()
 print(opt)
 
 
+def fix_random_sees_as(random_seed):
+    random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    torch.cuda.manual_seed_all(random_seed)
+    np.random.seed(random_seed)
+    cudnn.deterministic = True
+    cudnn.benchmark = False
+
+
+opt.random_seed = random.randint(0, 2024)
+fix_random_sees_as(opt.random_seed)
 
 if not os.path.exists(opt.log_file):
         os.makedirs(opt.log_file)
@@ -68,23 +79,23 @@ logger.info(opt)
 
 def config_dataset():
     if opt.dataset == 'LastFM':
-        opt.random_seed = 8679
+        # opt.random_seed = 8679
         opt.global_att_block_nums = 5
         opt.step_global = 2
     elif opt.dataset == 'yoochoose1_64':
-        opt.random_seed = 1008
+        # opt.random_seed = 1008
         opt.global_att_block_nums = 6
         opt.step_global = 2
     elif opt.dataset == 'yoochoose1_4':
-        opt.random_seed = 9681
+        # opt.random_seed = 9681
         opt.global_att_block_nums = 6
         opt.step_global = 3
     elif opt.dataset == 'Gowalla':
-        opt.random_seed = 2994
+        # opt.random_seed = 2994
         opt.global_att_block_nums = 4
         opt.step_global = 4
     elif opt.dataset == 'diginetica':
-        opt.random_seed = 9218
+        # opt.random_seed = 9218
         opt.global_att_block_nums = 5
         opt.step_global = 2
 
