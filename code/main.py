@@ -79,23 +79,18 @@ logger.info(opt)
 
 def config_dataset():
     if opt.dataset == 'LastFM':
-        # opt.random_seed = 8679
         opt.global_att_block_nums = 5
         opt.step_global = 2
     elif opt.dataset == 'yoochoose1_64':
-        # opt.random_seed = 1008
         opt.global_att_block_nums = 6
         opt.step_global = 2
     elif opt.dataset == 'yoochoose1_4':
-        # opt.random_seed = 9681
         opt.global_att_block_nums = 6
         opt.step_global = 3
     elif opt.dataset == 'Gowalla':
-        # opt.random_seed = 2994
         opt.global_att_block_nums = 4
         opt.step_global = 4
     elif opt.dataset == 'diginetica':
-        # opt.random_seed = 9218
         opt.global_att_block_nums = 5
         opt.step_global = 2
 
@@ -109,7 +104,6 @@ def lens_max():
 
 
 def main():
-
     lens_max()
     config_dataset()
     train_data = pickle.load(open('../datasets/' + opt.dataset + '/train.txt', 'rb'))
@@ -118,7 +112,6 @@ def main():
         train_data, valid_data = split_validation(train_data, opt.valid_portion)
         test_data = valid_data
     else:
-
         test_data = pickle.load(open('../datasets/' + opt.dataset + '/test.txt', 'rb'))
         # test_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\test.txt', 'rb'))
 
