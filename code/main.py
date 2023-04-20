@@ -116,7 +116,7 @@ def main():
         # test_data = pickle.load(open(ROOT_DIR+'\datasets\\' + opt.dataset + '\\test.txt', 'rb'))
 
     train_data = Data(train_data, opt.len_max, shuffle=True)
-    test_data = Data(test_data, opt.len_max, shuffle=False)
+    test_data = Data(test_data, opt.len_max, shuffle=True)
 
     # del all_train_seq, g
     if opt.dataset == 'diginetica':
